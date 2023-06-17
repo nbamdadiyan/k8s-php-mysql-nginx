@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-fpm-deployment
+  labels:
+    app: php-fpm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: php-fpm
+  template:
+    metadata:
+      labels:
+        app: php-fpm
+    spec:
+      containers:
+      - name: php-fpm
+        image: php-fpm:v1 
+        ports:
+        - containerPort: 9000
+        imagePullPolicy: Never
+        lifecycle:
+          postStart:
+             exec:
+                command: ["/bin/sh", "-c", "cp -r /app/. /var/www/html"]
+
+---   
+apiVersion: v1      #ersion: v1
+kind: Service
+metadata:
+  name: php-fpm-deployment
+  labels:
+    app: php-fpm
+spec: 
+  ports:
+    - protocol: TCP
+      port: 9000
+      targetPort: 9000
+  selector: 
+    app: php-fpm
