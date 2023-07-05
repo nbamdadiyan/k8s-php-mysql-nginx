@@ -1,4 +1,4 @@
-# k8s-roomvu
+# k8s-Php_mysql_nginx
 To run this project 
 1. first I took 3 Hertzner server
 2. run Kubernetes on them by Kubespray with Calico CNI.
